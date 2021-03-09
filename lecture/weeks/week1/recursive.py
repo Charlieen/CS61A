@@ -24,7 +24,7 @@ def sum_digit2(n):
         all_but_last,last = n//10, n % 10
         return sum_digit2(all_but_last)+last
 
-sum_digit2(18117)
+# sum_digit2(18117)
 
 # 4!= 4* 3*2*1
 
@@ -67,6 +67,126 @@ def is_odd(n):
 
 
 assert is_even(24) == True
+
+# 0 is even and 1 is odd , which are the exit and basic base,
+# use - to  the base, and the step is 1
+# There are only two possible ,even or odd .
+def is_even_all(n):
+    if n==0:
+        return True
+    else:
+        if (n-1)==0:
+            return False
+        else:
+            return is_even_all((n-1)-1)
+
+# Printing in Recursive Functions
+def cascade(n):
+    if n < 10:
+        print(n)
+    else:
+        print(n)
+        cascade(n // 10)
+        print(n)
+
+cascade(12345)
+
+def alice(n):
+    if n==1:
+        print("alice Win")
+        return True
+    else:
+        return bob(n-1)
+
+def bob(n):
+    if (n % 2 == 0 and n ==2) or n==1:
+        print("bob Win")
+        return True
+    else:
+        if n%2 ==0:
+            return alice(n-2)
+        else:
+            return alice(n-1)
+
+# n and let gamer 1 start
+def game(n,gamer1):
+    gamer1(n)
+
+
+print(game(20,alice))
+
+# Tree Recursion
+
+# 0,1 (0+1),(1+1),(1+2),(2+3),(3+5)
+# 0 1   1     2     3     5     8
+#
+def fib(n):
+    if n ==0:
+        return 0
+    elif n ==1:
+        return 1
+    else:
+        return fib(n-2)+fib(n-1)
+
+assert fib(6)==8
+
+def fib_num(n):
+    i,total =2,0
+    all_num= [0,1]
+    if n==0:
+        all_num.append(0)
+        print (0)
+    elif n==1:
+        all_num.append(0)
+        print (1)
+    else:
+        while i<=n:
+            all_num.append(all_num[i-2]+all_num[i-1])
+            i=i+1
+        print(all_num)
+
+# fib_num(5)
+
+# Partitions
+# 1 =1 2 =1+1 3= 2+1 = 1+1+1 ; 4=,3+1 = 2+1 ,1+1+1
+# 6 = 2 + 4
+# 6 = 1 + 1 + 4
+# 6 = 3 + 3
+# 6 = 1 + 2 + 3
+# 6 = 1 + 1 + 1 + 3
+# 6 = 2 + 2 + 2
+# 6 = 1 + 1 + 2 + 2
+# 6 = 1 + 1 + 1 + 1 + 2
+# 6 = 1 + 1 + 1 + 1 + 1 + 1
+
+# 1 easy: get all possible count
+
+
+def parti(total,up_to,container):
+    if (total == up_to == 1) or (total == up_to):
+        container=container+1
+    else:
+        i = 1
+        while i <= up_to:
+            total_n, i = total - i, i + 1
+            if i > total_n:
+                i = total_n
+            parti(total_n, i,container)
+    return container
+
+print(parti(2,1,0))
+# assert parti(6,4) ==9
+
+
+
+
+
+
+
+
+
+
+
 
 
 
