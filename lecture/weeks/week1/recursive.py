@@ -166,19 +166,44 @@ def parti(total,up_to,container):
     if (total == up_to == 1) or (total == up_to):
         container=container+1
     else:
-        i = 1
-        while i <= up_to:
-            total_n, i = total - i, i + 1
-            if i > total_n:
-                i = total_n
-            parti(total_n, i,container)
+        if( up_to > 1):
+            i = 1
+            while i <= up_to:
+                total_n, i = total - i, i + 1
+                if i > total_n:
+                    i = total_n
+                parti(total_n, i, container)
+        else:
+            if total-1>=1:
+                parti(total-1,up_to,container)
+
+
     return container
 
-print(parti(2,1,0))
+# print(parti(2,1,0))
 # assert parti(6,4) ==9
+# (6,4) = (6-4,4) + (6,4-1)
+#   n,m  =  n-m,m  +  n,m-1    把问题域 缩小了一步，且只是一步。 m 步长为1收缩，-> n 可以被m 步长为1 收缩，
+#  m-1 -> m  给出边界条件，收敛指向的边界。convergence  m==0 对计数的贡献为 0
+#  n-m -> n  n==0
+# 递归的关键点在于 有效的找出以最简单，最有效的 相同的收缩逻辑，
 
+#
 
+def count_partitions(n,m):
+    print(n,m)
+    if n==0:
+        return 1
+    elif n<0:
+        return 0
+    elif m==0:
+        return 0
+    else:
+        with_m = count_partitions(n-m,m)
+        without_m = count_partitions(n,m-1)
+        return with_m+without_m
 
+count_partitions(3,3)
 
 
 
