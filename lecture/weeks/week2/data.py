@@ -189,8 +189,185 @@ assert product([1,2,3,4,5]) ==120
 
 # Sequence Abstraction length and element selection, membership and slicing
 
-assert 2 in [1,2,3] == True
+# assert 2 in [1,2,3] == True
 
-assert 10 not in [1,2,3] == True
+print(2 in [1,2,3])
+
+assert (2 in [1,2,3]) == True
+assert (10 not in [1,2,3]) == True
+# assert 10 not in [1,2,3] == True
+# Slicing
+#         0 1 2 3 4 5 6 7 8 9
+demoData=[1,2,3,4,5,6,7,8,9,10]
+print(demoData[1:3])
+assert demoData[1:3]==[2,3]
+assert demoData[1:3:1]==[2,3]
+print(demoData[0:6:2])
+# assert demoData[0:6:2]==[0,2,4]
+print('------207---line--------')
+
+# Trees
+# one_two = [1,2]
+# nested =[[1,2],[],[[3,False,None],[4,lambda:5]]]
+#
+def tree(root_label, branches_=[]):
+    if len(branches_)==0:
+        return [root_label]
+    else:
+        for branch in branches_:
+            assert is_tree(branch), 'branches must be tree'
+            return [root_label] + list(branches_)
+
+def label(tree):
+    return tree[0]
+
+def branches(tree):
+    if type(tree) == int:
+        return False
+    else:
+        return tree[1:]
 
 
+# [[]],
+def is_tree(tree):
+    if type(tree) !=list or len(tree)<1: # make sure all element(in tree) was in list
+        return False
+    for branch in branches(tree):
+        if not is_tree(branch):
+            return False
+    return True
+
+def is_leaf(tree):
+    return not branches(tree)
+
+
+def fib_tree(n):
+    if n==0 or n==1:
+        return tree(n)
+    else:
+        left, right = fib_tree(n-2), fib_tree(n-1)
+        fib_n = label(left) + label(right)
+        return tree(fib_n,[left,right])
+
+def count_partitions(n,m):
+    print(n,m)
+    if n==0:
+        return 1
+    elif n<0:
+        return 0
+    elif m==0:
+        return 0
+    else:
+        with_m = count_partitions(n-m,m)
+        without_m = count_partitions(n,m-1)
+        return with_m+without_m
+
+
+def parti_tree(n,m):
+    if m==0 or n<0:
+        return tree(False)
+    elif n==0:
+        return tree(True)
+    else:
+        with_m, without_m = parti_tree(n-m,m), parti_tree(n,m-1)
+        return tree(m,[with_m,without_m])
+
+parti_tree_1= parti_tree(3,2)
+# [2, [2, [False], [1, [True], [False]]], [1, [1, [1, [True], [False]], [False]], [False]]]
+# print(parti_tree_1)
+
+def print_partis(tree,partition=[]):
+    if is_leaf(tree):
+        if label(tree):
+            print(' + '.join(partition))
+    else:
+        left,right = branches(tree)
+        m = str(label(tree))
+        print_partis(left,partition+[m])
+        print_partis(right,partition)
+
+print_partis(parti_tree(6,4))
+
+#tree=[tree[1:],tree[0]]
+# 高度的技巧，
+def right_binarize(tree):
+    if is_leaf(tree):
+        return tree+100
+    if len(tree) > 2:
+        tree = [tree[0], tree[1:]]
+    return [right_binarize(b) for b in tree]
+
+demo_right_binarize = right_binarize([1,2,3,4,5,6])
+
+print(demo_right_binarize)
+
+def gen(n):
+    if n%2==0:
+        return n
+    else:
+        return [n]
+test_1=[gen(c) for c in [1,2,3,4] ]
+test_2 =(2*c for c in [1,2,3])
+
+
+#print(test_1)
+
+
+
+
+
+# fib_tree_2 = fib_tree(4)
+#
+# print(fib_tree_2)
+
+
+
+
+#[1, [2, [21], [22]], [3, [31], [32]], [4, [41], [42]]]
+# nestedTree_1= tree(1,[tree(2,[tree(21),tree(22)]),tree(3,[tree(31),tree(32)]),tree(4,[tree(41),tree(42)])])
+# print(label(nestedTree_1[]))
+#
+# print(nestedTree_1)
+
+
+# tree demo [3,[1,[]]]
+
+# print(type(tree))
+
+
+# t= tree(3,[tree(1),tree(2,[tree(1),tree(1)])])
+# print(t)
+# t = tree(3, [tree(1), tree(2, [tree(1), tree(1)])])
+# print(t)
+
+
+# test=[1]
+# print(test[1:])
+#
+# print(not [])
+# print(not [1])
+#
+#
+# # [2,[[1],[1]]
+# tree_demo_1 = tree(2,[tree(1),tree(1)])
+#
+# print(tree_demo_1)
+#
+# print(label(tree_demo_1))
+# print(branches(tree_demo_1))
+# print(is_tree(branches((tree_demo_1))))
+#
+#
+# tree_demo_2 = tree(1)
+#
+# print(tree_demo_2)
+# print(is_tree(tree_demo_2))
+# print(is_leaf(tree_demo_2))
+#
+# print(len([[[]]]))
+#
+# print(is_tree([[]]))
+#
+# test_empty_1=[]
+# print(test_empty_1[1:])
+#
