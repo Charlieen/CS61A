@@ -206,3 +206,82 @@ def print_parti(n,m):
     print(join_link_2(strings,"\n"))
 
 print_parti(6,4)
+
+
+# Implementing Lists and Dictionaries
+
+def mutable_link():
+    """ Return a functional implementation of a mutable linked list."""
+    contents =empty
+    def dispatch(message,value=None):
+        nonlocal contents
+        if message == 'len':
+            return len_link(contents)
+        elif message =='getitem':
+            return getitem_link(contents,value)
+        elif message =='push_first':
+            contents= link(value,contents)
+        elif message =='pop_first':
+            f= first(contents)
+            contents = rest(contents)
+            return f
+        elif message == 'str':
+            return join_link(", ")
+    return dispatch
+
+def to_mutable_link(source):
+    """ Return a functional list with the same contents as source"""
+    s = mutable_link()
+    for element in reversed(source):
+        s('push_first',element)
+    return s
+
+def dictionary():
+    """ Return a functional implementation of a dictionary"""
+    records=[]
+    def getitem(key):
+        matches = [r for r in records if r[0]==key]
+        if len(matches)==1:
+            key,value = matches[0]
+            return value
+    def setitem(key,value):
+        nonlocal records
+        non_matches = [ r for r in records if r[0]!=key]
+        records = non_matches +[[key,value]]
+    def dispatch(message,key=None,value=None):
+        if message == 'getitem':
+            return getitem(key)
+        elif message == 'setitem':
+            return setitem(key,value)
+    return dispatch
+
+# By storing the balance in the dispatch dictionary rather than in the account frame directly,we
+# avoid the need for nonlocal statement in deposit and withdraw
+def account(initial_balance):
+    # balance =0  # in account frame
+    def deposit(amount):
+       # nonlocal  balance
+        dispatch['balance']+= amount
+        return dispatch['balance']
+    def withdraw(amount):
+        if amount> dispatch['balance']:
+            return 'Insufficient funds'
+        else:
+            dispatch['balance'] -= amount
+            return dispatch['balance']
+    dispatch={'deposite':deposit,'withdraw':withdraw,'balance': initial_balance}
+    return dispatch
+
+def withdraw(account,amount):
+    return account['withdraw'](amount)
+def deposit(account,amount):
+    return account['deposite'](amount)
+def check_balance(account):
+    return account['balance']
+
+
+a= account(20)
+deposit(a,5)
+withdraw(a,15)
+assert check_balance(a) ==10
+
