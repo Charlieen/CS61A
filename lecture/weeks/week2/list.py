@@ -83,7 +83,7 @@ print(extend_link(test_s,test_t))
 
 def apply_to_all_link(f,s):
     assert is_link(s)
-    if s== empty:
+    if s == empty:
         return s
     else:
         return link(f(first(s)),apply_to_all_link(f,rest(s)))
